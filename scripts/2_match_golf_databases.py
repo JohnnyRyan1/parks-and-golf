@@ -30,10 +30,15 @@ def convert_wgs_to_utm(lon, lat):
     return epsg_code
 
 # Define filepath to data
-filepath = '/home/johnny/Documents/Teaching/490_Geospatial_Data_Science_Applications/Applications/OSM_Parks_and_Golf/'
+filepath = '/Users/jryan4/Dropbox (University of Oregon)/Parks_and_Golf/'
+
+# Define API key
+key_path = '/Users/jryan4/Dropbox (University of Oregon)/Parks_and_Golf/google-api-key.txt'
+with open(key_path) as f:
+    key = f.readlines()
 
 # Define GeoCoder
-geolocator = GoogleV3(api_key='AIzaSyD1y2S1g-d5FtrvP8blAE_0fZK93FCDfyQ')
+geolocator = GoogleV3(api_key=key[0])
 
 # Import states data
 states = gpd.read_file(filepath + 'data/states/tl_2020_us_state.shp')
