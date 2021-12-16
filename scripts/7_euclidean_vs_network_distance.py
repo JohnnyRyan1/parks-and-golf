@@ -22,13 +22,15 @@ from shapely.ops import transform
 
 
 # Default MapBox public access token
-mapbox_key = 'pk.eyJ1Ijoiam9obm55cnlhbiIsImEiOiJja282YWM1M28wbDJwMndxdmxubDV3bjd0In0.ITOgXnk3DjnbPuqhK01eKg'
-
+key_path = '/Users/jryan4/Dropbox (University of Oregon)/Parks_and_Golf/mapbox-api-key.txt'
+with open(key_path) as f:
+    key = f.readlines()
+    
 # Define client
-client = MapboxValhalla(api_key=mapbox_key)
+client = MapboxValhalla(api_key=key[0])
         
 # Define path
-path = '/home/johnny/Documents/Teaching/490_Geospatial_Data_Science_Applications/Applications/OSM_Parks_and_Golf/data/'
+path = '/Users/jryan4/Dropbox (University of Oregon)/Parks_and_Golf/data/'
 
 # Import state codes
 codes = pd.read_csv(path + 'state_codes.csv')
@@ -211,7 +213,7 @@ for j in range(codes.shape[0]):
 
 
 
-
+# Load 
 
 
 

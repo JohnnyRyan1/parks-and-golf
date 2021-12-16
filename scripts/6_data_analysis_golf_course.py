@@ -15,10 +15,13 @@ import matplotlib.pyplot as plt
 from scipy import stats
 
 # Define path to data 
-path = '/home/johnny/Documents/Teaching/490_Geospatial_Data_Science_Applications/Applications/OSM_Parks_and_Golf/data/'
+path = '/Users/jryan4/Dropbox (University of Oregon)/Parks_and_Golf/data/'
 
 # Define save path
-savepath = '/home/johnny/Documents/Teaching/490_Geospatial_Data_Science_Applications/Applications/OSM_Parks_and_Golf/figures/'
+savepath = '/Users/jryan4/Dropbox (University of Oregon)/Parks_and_Golf/figures/'
+
+# Define save data path
+datapath = '/Users/jryan4/Dropbox (University of Oregon)/Parks_and_Golf/repo/'
 
 ###############################################################################
 # Number of golf courses in GolfNationwide.com directory
@@ -157,6 +160,7 @@ urban_large.reset_index(inplace=True)
 urban_large['NAME10']= urban_large['city_name']
 city_pop_area = pd.merge(left=urban_large, right=city_pop, how='inner', on='NAME10')
 city_pop_area['golf_per_capita'] = city_pop_area['golf_area'] / city_pop_area['Population']
+city_pop_area['green_per_capita'] = city_pop_area['greenspace_area'] / city_pop_area['Population']
 
 city_pop_area['golf_vs_greenspace'] = city_pop_area['golf_area'] / city_pop_area['greenspace_area']
 
@@ -168,42 +172,51 @@ print(city_pop_area.sort_values(by=['golf_vs_greenspace'])[['NAME10','golf_vs_gr
 
 print(city_pop_area.sort_values(by=['golf_per_capita'])[['NAME10','golf_per_capita']].tail(10))
 print(city_pop_area.sort_values(by=['golf_per_capita'])[['NAME10','golf_per_capita']].head(10))
+
+# Save to csv
+city_pop_area = city_pop_area.drop(labels='NAME10', axis=1)
+city_pop_area = city_pop_area.drop(labels='index', axis=1)
+city_pop_area.to_csv(datapath + 'data/city_stats.csv')
+df.to_csv(datapath + 'data/block_group_stats.csv')
 
 ###############################################################################
 # Area of golf courses for US urban areas by for cities > 100,000 people
 ###############################################################################
 
-# Get cities with populations larger than 100K
-large_cities = city_pop[city_pop > 100000].index.values
+# =============================================================================
+# # Get cities with populations larger than 100K
+# large_cities = city_pop[city_pop > 100000].index.values
+# 
+# # Filter DataFrame
+# df_large = df[df['NAME10'].isin(large_cities)]
+# df_large.reset_index(inplace=True)
+# 
+# # Do some filtering
+# df_large[df_large == -666666666] = np.nan
+# 
+# # Filter DataFrame
+# urban_large = urban_golf[urban_golf['city_name'].isin(large_cities)]
+# urban_large.reset_index(inplace=True)
+# 
+# # Merge greenspace area and city population data
+# urban_large['NAME10']= urban_large['city_name']
+# city_pop_area = pd.merge(left=urban_large, right=city_pop, how='inner', on='NAME10')
+# city_pop_area['golf_per_capita'] = city_pop_area['golf_area'] / city_pop_area['Population']
+# city_pop_area['green_per_capita'] = city_pop_area['greenspace_area'] / city_pop_area['Population']
+# 
+# city_pop_area['golf_vs_greenspace'] = city_pop_area['golf_area'] / city_pop_area['greenspace_area']
+# 
+# 
+# print(city_pop_area.sort_values(by=['golf_fraction'])[['NAME10','golf_fraction']].tail(10))
+# print(city_pop_area.sort_values(by=['golf_fraction'])[['NAME10','golf_fraction']].head(10))
+# 
+# print(city_pop_area.sort_values(by=['golf_vs_greenspace'])[['NAME10','golf_vs_greenspace']].tail(10))
+# print(city_pop_area.sort_values(by=['golf_vs_greenspace'])[['NAME10','golf_vs_greenspace']].head(10))
+# 
+# print(city_pop_area.sort_values(by=['golf_per_capita'])[['NAME10','golf_per_capita']].tail(10))
+# print(city_pop_area.sort_values(by=['golf_per_capita'])[['NAME10','golf_per_capita']].head(10))
+# =============================================================================
 
-# Filter DataFrame
-df_large = df[df['NAME10'].isin(large_cities)]
-df_large.reset_index(inplace=True)
-
-# Do some filtering
-df_large[df_large == -666666666] = np.nan
-
-# Filter DataFrame
-urban_large = urban_golf[urban_golf['city_name'].isin(large_cities)]
-urban_large.reset_index(inplace=True)
-
-# Merge greenspace area and city population data
-urban_large['NAME10']= urban_large['city_name']
-city_pop_area = pd.merge(left=urban_large, right=city_pop, how='inner', on='NAME10')
-city_pop_area['golf_per_capita'] = city_pop_area['golf_area'] / city_pop_area['Population']
-city_pop_area['green_per_capita'] = city_pop_area['greenspace_area'] / city_pop_area['Population']
-
-city_pop_area['golf_vs_greenspace'] = city_pop_area['golf_area'] / city_pop_area['greenspace_area']
-
-
-print(city_pop_area.sort_values(by=['golf_fraction'])[['NAME10','golf_fraction']].tail(10))
-print(city_pop_area.sort_values(by=['golf_fraction'])[['NAME10','golf_fraction']].head(10))
-
-print(city_pop_area.sort_values(by=['golf_vs_greenspace'])[['NAME10','golf_vs_greenspace']].tail(10))
-print(city_pop_area.sort_values(by=['golf_vs_greenspace'])[['NAME10','golf_vs_greenspace']].head(10))
-
-print(city_pop_area.sort_values(by=['golf_per_capita'])[['NAME10','golf_per_capita']].tail(10))
-print(city_pop_area.sort_values(by=['golf_per_capita'])[['NAME10','golf_per_capita']].head(10))
 
 ###############################################################################
 # Bubble map showing golf course statistics
@@ -216,7 +229,7 @@ print(city_pop_area.sort_values(by=['golf_per_capita'])[['NAME10','golf_per_capi
     
 """
 # Import USA shapefile
-usa = gpd.read_file('/home/johnny/Documents/Teaching/490_Geospatial_Data_Science_Applications/Applications/OSM_Parks_and_Golf/data/states/cb_2018_us_state_5m_conterminous.shp')
+usa = gpd.read_file(path + 'states/cb_2018_us_state_5m_conterminous.shp')
 gdf = gpd.GeoDataFrame(city_pop_area, geometry=gpd.points_from_xy(city_pop_area['city_lon'], city_pop_area['city_lat']))
 #gdf = gpd.GeoDataFrame(urban_golf, geometry=gpd.points_from_xy(urban_golf['city_lon'], urban_golf['city_lat']))
 
@@ -256,7 +269,6 @@ for i in range(gdf.shape[0]):
                   colors=['#f7fcb9', '#31a354'])
 ax.axis('off')
 plt.savefig(savepath + 'golf_stats_map.svg')
-
 
 ###############################################################################
 # Number of people closer/further than 1 km from greenspace by region

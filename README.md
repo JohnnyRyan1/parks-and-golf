@@ -1,6 +1,6 @@
 # Assessing the impacts of urban golf courses on access to greenspace in the United States
 
-This repository contains the scripts to reproduce the data analysis.
+This repository contains the scripts to reproduce the data analysis and figures for the paper.
 
 ### Figures
 
