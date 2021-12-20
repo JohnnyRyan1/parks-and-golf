@@ -1,6 +1,6 @@
 # Assessing the impacts of urban golf courses on access to greenspace in the United States
 
-This repository contains the scripts to reproduce the data analysis and figures for the paper.
+This repository all the code and data required to reproduce the data analysis and figures for this paper. Additional data can be found here: https://zenodo.org/record/5787031. The boundaries of US urban areas can be downloaded from: https://www.census.gov/cgi-bin/geo/shapefiles/index.php. Map data from OpenStreetMap is available from: https://www.openstreetmap.org. In this study we downloaded OSM data using `osmnx` which is available to install at: https://github.com/gboeing/osmnx. Golf course ownership status can be downloaded from GolfNationwide: http://www.golfnationwide.com/. Census Bureau data at the block group level can be downloaded from U.S. Census Bureau’s API: https://www.census.gov/data/developers.html. In this study we downloaded Census Bureau data using `censusdata` which is available at: https://github.com/jtleider/censusdata.
 
 ### Figures
 
