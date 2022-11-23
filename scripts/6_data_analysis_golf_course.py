@@ -15,13 +15,13 @@ import matplotlib.pyplot as plt
 from scipy import stats
 
 # Define path to data 
-path = '/Users/jryan4/Dropbox (University of Oregon)/Parks_and_Golf/data/'
+path = '/Users/jryan4/Dropbox (University of Oregon)/research/parks-and-golf/data/'
 
 # Define save path
-savepath = '/Users/jryan4/Dropbox (University of Oregon)/Parks_and_Golf/figures/'
+savepath = '/Users/jryan4/Dropbox (University of Oregon)/research/parks-and-golf/figures/'
 
 # Define save data path
-datapath = '/Users/jryan4/Dropbox (University of Oregon)/Parks_and_Golf/repo/'
+datapath = '/Users/jryan4/Dropbox (University of Oregon)/research/parks-and-golf/repo/'
 
 ###############################################################################
 # Number of golf courses in GolfNationwide.com directory
@@ -44,7 +44,7 @@ print('Number of golf courses in GolfNationwide.com = %.0f' %database_df.shape[0
 ###############################################################################
 # Urban golf course statistics
 ###############################################################################
-urban_golf = pd.read_csv(path + 'golf_course_states_usa.csv')
+urban_golf = pd.read_csv(path + 'city_stats.csv')
 urban_golf['greenspace_area'] = urban_golf['park_area'] + urban_golf['golf_area']
 
 print('Number of urban golf courses in OSM = %.0f' %np.sum(urban_golf['golf_num']))
@@ -176,8 +176,8 @@ print(city_pop_area.sort_values(by=['golf_per_capita'])[['NAME10','golf_per_capi
 # Save to csv
 city_pop_area = city_pop_area.drop(labels='NAME10', axis=1)
 city_pop_area = city_pop_area.drop(labels='index', axis=1)
-city_pop_area.to_csv(datapath + 'data/city_stats.csv')
-df.to_csv(datapath + 'data/block_group_stats.csv')
+#city_pop_area.to_csv(datapath + 'data/city_stats.csv')
+#df.to_csv(datapath + 'data/block_group_stats.csv')
 
 ###############################################################################
 # Area of golf courses for US urban areas by for cities > 100,000 people
